@@ -31,20 +31,25 @@ const App = () => {
   }
 
   return (
-    <div>
+   <div className="flex flex-col min-h-screen">
+    
       <Navbar />
-      <Routes>
-        <Route path="/" element={authUser ? <Home /> : <Navigate to="/signin" />} />
-        <Route path='/create' element={authUser ? <BlogCreate /> : <Navigate to="/signin" />} />
-        <Route path="/about" element={authUser ? <About /> : <Navigate to="/signin" />} />
-        <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
-        <Route path="/signin" element={authUser ? <Navigate to="/" /> : <SignIn />} />
-        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/signin" />} />
-        <Route path="/update/:id" element={authUser ? <BlogUpdate /> : <Navigate to="/signin" />} />
-        <Route path="/blog/:id" element={authUser ? <BlogDetail /> : <Navigate to="/signin" />} />
-        <Route path="/my-blogs" element={authUser ? <MyBlogs /> : <Navigate to="/signin" />} />
-        <Route path="/publish" element={authUser && authUser.is_admin ? <PublishBlogs /> : <Navigate to="/signin" />} />
-      </Routes>
+
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={authUser ? <Home /> : <Navigate to="/signin" />} />
+          <Route path="/create" element={authUser ? <BlogCreate /> : <Navigate to="/signin" />} />
+          <Route path="/about" element={authUser ? <About /> : <Navigate to="/signin" />} />
+          <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
+          <Route path="/signin" element={authUser ? <Navigate to="/" /> : <SignIn />} />
+          <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/signin" />} />
+          <Route path="/update/:id" element={authUser ? <BlogUpdate /> : <Navigate to="/signin" />} />
+          <Route path="/blog/:id" element={authUser ? <BlogDetail /> : <Navigate to="/signin" />} />
+          <Route path="/my-blogs" element={authUser ? <MyBlogs /> : <Navigate to="/signin" />} />
+          <Route path="/publish" element={authUser && authUser.is_admin ? <PublishBlogs /> : <Navigate to="/signin" />} />
+        </Routes>
+      </main>
+
       <Footer />
     </div>
   )
