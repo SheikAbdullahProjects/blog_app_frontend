@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 
 const useAuthStore = create((set) => ({
-  authUser: null,
+  authUser: JSON.parse(localStorage.getItem("authUser")) || null,
   isSigningUp: false,
   isSigningIn: false,
   isUserLoading: false,
@@ -15,6 +15,7 @@ const useAuthStore = create((set) => ({
     try {
       const response = await axiosInstance.post("/auth/signup", data);
       set({ authUser: response.data });
+      localStorage.setItem("authUser", JSON.stringify(response.data));
       toast.success("Successfully signed up!");
     } catch (error) {
       console.log(error);
@@ -29,6 +30,7 @@ const useAuthStore = create((set) => ({
     try {
       const response = await axiosInstance.post("/auth/signin", data);
       set({ authUser: response.data });
+      localStorage.setItem("authUser", JSON.stringify(response.data));
       toast.success("Successfully signed in!");
     } catch (error) {
       toast.error(error.response?.data?.detail || "Signin failed");
@@ -42,8 +44,10 @@ const useAuthStore = create((set) => ({
     try {
       const response = await axiosInstance.get("/auth/current-user");
       set({ authUser: response.data });
+      localStorage.setItem("authUser", JSON.stringify(response.data));
     } catch (error) {
       set({ authUser: null });
+      localStorage.removeItem("authUser");
       console.log(error)
     } finally {
       set({ isUserLoading: false });
@@ -54,6 +58,7 @@ const useAuthStore = create((set) => ({
     try {
       await axiosInstance.post("/auth/signout");
       set({ authUser: null });
+      localStorage.removeItem("authUser");
       toast.success("Logout Successfully!");
     } catch (error) {
       toast.error(error.response?.data?.detail || "Logout failed");
